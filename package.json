@@ -1,6 +1,6 @@
 {
   "name": "@matguig/environment",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Easily manage your environment variables",
   "main": "dist/index.js",
   "repository": {
@@ -49,8 +49,11 @@
     "modulePathIgnorePatterns": [
       "<rootDir>/dist/"
     ],
-    "transform":  {
-      "\\.(ts)$": ["ts-jest", {}]
+    "transform": {
+      "\\.(ts)$": [
+        "ts-jest",
+        {}
+      ]
     },
     "testRegex": "(/tests/.test.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
@@ -61,7 +64,11 @@
     ],
     "collectCoverage": false,
     "coverageDirectory": "coverage",
-    "coverageReporters": ["json", "html", "lcov"],
+    "coverageReporters": [
+      "json",
+      "html",
+      "lcov"
+    ],
     "coverageThreshold": {
       "global": {
         "branches": 95,

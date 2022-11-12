@@ -1,5 +1,4 @@
 import { ReadStream } from "fs";
-import { buffer } from "stream/consumers";
 import EnvironmentVariableParseError from "../Error/EnvironmentVariableParseError";
 import UndefinedEnvironmentVariableError from "../Error/UndefinedEnvironmentVariableError";
 import StringDictionaryReaderReadOnly from "./ReadOnly";
@@ -250,6 +249,10 @@ describe('StringDictionaryReader ReadOnly', () => {
     it('should getFileContent', () => {
       expect(dict.getFileContent('FILE_PATH', 'utf-8')).toBe('Hello World!\n');
       expect(dict.getFileContent('FILE_PATH').toString('utf-8')).toBe('Hello World!\n');
+    })
+
+    it('shoudl return null', () => {
+      expect(dict.getFilePath('NON_EXISTING', null)).toBe(null);
     })
   });
 
