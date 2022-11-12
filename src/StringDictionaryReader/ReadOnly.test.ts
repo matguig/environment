@@ -1,3 +1,5 @@
+import EnvironmentVariableParseError from "../Error/EnvironmentVariableParseError";
+import UndefinedEnvironmentVariableError from "../Error/UndefinedEnvironmentVariableError";
 import StringDictionaryReaderReadOnly from "./ReadOnly";
 
 describe('StringDictionaryReader ReadOnly', () => {
@@ -15,7 +17,10 @@ describe('StringDictionaryReader ReadOnly', () => {
     });
 
     it('should throw an error when getting value of an none existing key without fallback', () => {
-      expect(() => dict.get('BAR')).toThrow(new Error('Environment variable BAR is not defined'));
+      const expected = expect(() => dict.get('BAR'));
+
+      expected.toThrowErrorMatchingSnapshot();
+      expected.toThrow(UndefinedEnvironmentVariableError);
     });
   });
 
@@ -51,11 +56,17 @@ describe('StringDictionaryReader ReadOnly', () => {
     });
 
     it('should throw an error when getting value which is not a boolean', () => {
-      expect(() => dict.getBool('FOO')).toThrow(new Error('Environment variable FOO is not a boolean'));
+      const expected = expect(() => dict.getBool('FOO'));
+
+      expected.toThrowErrorMatchingSnapshot();
+      expected.toThrow(EnvironmentVariableParseError);
     });
 
     it('should throw an error when getting value of an none existing key without fallback', () => {
-      expect(() => dict.getBool('NON_EXISTING')).toThrow(new Error('Environment variable NON_EXISTING is not defined'));
+      const expected = expect(() => dict.getBool('NON_EXISTING'));
+
+      expected.toThrowErrorMatchingSnapshot();
+      expected.toThrow(UndefinedEnvironmentVariableError);
     });
 
     it.each(['true', 'True', '  true ', '1', '1        '])('should be able to parse "%s" as positive boolean', (value) => {
@@ -90,11 +101,17 @@ describe('StringDictionaryReader ReadOnly', () => {
     });
 
     it('should throw an error when getting value which is not an integer', () => {
-      expect(() => dict.getInt('FOO')).toThrow(new Error('Environment variable FOO is not an integer'));
+      const expected = expect(() => dict.getInt('FOO'));
+
+      expected.toThrowErrorMatchingSnapshot();
+      expected.toThrow(EnvironmentVariableParseError);
     });
 
     it('should throw an error when getting value of an none existing key without fallback', () => {
-      expect(() => dict.getInt('NON_EXISTING')).toThrow(new Error('Environment variable NON_EXISTING is not defined'));
+      const expected = expect(() => dict.getInt('NON_EXISTING'));
+
+      expected.toThrowErrorMatchingSnapshot();
+      expected.toThrow(UndefinedEnvironmentVariableError);
     });
 
     it('should be able to parse negative integer', () => {
@@ -128,11 +145,17 @@ describe('StringDictionaryReader ReadOnly', () => {
     });
 
     it('should throw an error when getting value which is not a float', () => {
-      expect(() => dict.getFloat('FOO')).toThrow(new Error('Environment variable FOO is not a float'));
+      const expected = expect(() => dict.getFloat('FOO'));
+
+      expected.toThrowErrorMatchingSnapshot();
+      expected.toThrow(EnvironmentVariableParseError);
     });
 
     it('should throw an error when getting value of an none existing key without fallback', () => {
-      expect(() => dict.getFloat('NON_EXISTING')).toThrow(new Error('Environment variable NON_EXISTING is not defined'));
+      const expected = expect(() => dict.getFloat('NON_EXISTING'));
+
+      expected.toThrowErrorMatchingSnapshot();
+      expected.toThrow(UndefinedEnvironmentVariableError);
     });
 
     it('should be able to parse negative float', () => {
@@ -170,7 +193,10 @@ describe('StringDictionaryReader ReadOnly', () => {
     });
 
     it('should throw an error when getting value of an none existing key without fallback', () => {
-      expect(() => dict.getJSON('NON_EXISTING')).toThrow(new Error('Environment variable NON_EXISTING is not defined'));
+      const expected = expect(() => dict.getJSON('NON_EXISTING'));
+
+      expected.toThrowErrorMatchingSnapshot();
+      expected.toThrow(UndefinedEnvironmentVariableError);
     });
 
     it('should be able to parse boolean as json', () => {

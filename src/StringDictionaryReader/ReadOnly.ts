@@ -1,3 +1,6 @@
+import EnvironmentVariableParseError, { TargetedType } from "../Error/EnvironmentVariableParseError";
+import UndefinedEnvironmentVariableError from "../Error/UndefinedEnvironmentVariableError";
+
 class StringDictionaryReaderReadOnly {
   constructor(protected dict: Record<string, string>) {}
 
@@ -30,7 +33,7 @@ class StringDictionaryReaderReadOnly {
     }
     const intValue = parseInt(value, 10);
     if (isNaN(intValue)) {
-      throw new Error(`Environment variable ${name} is not an integer`);
+      throw new EnvironmentVariableParseError(name, TargetedType.Integer, value);
     }
     return intValue;
   }
@@ -45,7 +48,7 @@ class StringDictionaryReaderReadOnly {
     }
     const floatValue = parseFloat(value);
     if (isNaN(floatValue)) {
-      throw new Error(`Environment variable ${name} is not a float`);
+      throw new EnvironmentVariableParseError(name, TargetedType.Float, value);
     }
     return floatValue;
   }
@@ -65,7 +68,7 @@ class StringDictionaryReaderReadOnly {
     if (sanitizedValue === 'false' || sanitizedValue === '0') {
       return false;
     }
-    throw new Error(`Environment variable ${name} is not a boolean`);
+    throw new EnvironmentVariableParseError(name, TargetedType.Boolean, value);
   }
 
   public get(name: string): string
@@ -96,7 +99,7 @@ class StringDictionaryReaderReadOnly {
     if (typeof fallback !== 'undefined') {
       return fallback;
     }
-    throw new Error(`Environment variable ${name} is not defined`);
+    throw new UndefinedEnvironmentVariableError(name);
   }
 }
 

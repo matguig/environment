@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StringDictionaryReader ReadOnly get method should throw an error when getting value of an none existing key without fallback 1`] = `"Environment variable "BAR" is not defined."`;
+
+exports[`StringDictionaryReader ReadOnly getBool method should throw an error when getting value of an none existing key without fallback 1`] = `"Environment variable "NON_EXISTING" is not defined."`;
+
+exports[`StringDictionaryReader ReadOnly getBool method should throw an error when getting value which is not a boolean 1`] = `"Could not parse environment variable "FOO" as boolean. Input was "bar"."`;
+
+exports[`StringDictionaryReader ReadOnly getFloat method should throw an error when getting value of an none existing key without fallback 1`] = `"Environment variable "NON_EXISTING" is not defined."`;
+
+exports[`StringDictionaryReader ReadOnly getFloat method should throw an error when getting value which is not a float 1`] = `"Could not parse environment variable "FOO" as float. Input was "bar"."`;
+
+exports[`StringDictionaryReader ReadOnly getInt method should throw an error when getting value of an none existing key without fallback 1`] = `"Environment variable "NON_EXISTING" is not defined."`;
+
+exports[`StringDictionaryReader ReadOnly getInt method should throw an error when getting value which is not an integer 1`] = `"Could not parse environment variable "FOO" as integer. Input was "bar"."`;
+
+exports[`StringDictionaryReader ReadOnly getJSON method should throw an error when getting value of an none existing key without fallback 1`] = `"Environment variable "NON_EXISTING" is not defined."`;
