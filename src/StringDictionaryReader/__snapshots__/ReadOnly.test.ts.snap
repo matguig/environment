@@ -6,6 +6,10 @@ exports[`StringDictionaryReader ReadOnly getBool method should throw an error wh
 
 exports[`StringDictionaryReader ReadOnly getBool method should throw an error when getting value which is not a boolean 1`] = `"Could not parse environment variable "FOO" as boolean. Input was "bar"."`;
 
+exports[`StringDictionaryReader ReadOnly getFile method should throw an error if file does not exist 1`] = `"File /non/exist does not exist"`;
+
+exports[`StringDictionaryReader ReadOnly getFile method should throw an error when getting value of an none existing key without fallback 1`] = `"Environment variable "NON_EXISTING" is not defined."`;
+
 exports[`StringDictionaryReader ReadOnly getFloat method should throw an error when getting value of an none existing key without fallback 1`] = `"Environment variable "NON_EXISTING" is not defined."`;
 
 exports[`StringDictionaryReader ReadOnly getFloat method should throw an error when getting value which is not a float 1`] = `"Could not parse environment variable "FOO" as float. Input was "bar"."`;

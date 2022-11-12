@@ -1,6 +1,6 @@
 {
   "name": "@matguig/environment",
-  "version": "0.1.3",
+  "version": "0.2.3",
   "description": "Easily manage your environment variables",
   "main": "dist/index.js",
   "repository": {

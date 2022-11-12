@@ -163,6 +163,44 @@ Environment.getBool('DOES_NOT_EXIST'); // throw UndefinedEnvironmentVariableErro
 Environment.getBool('INVALID_JSON'); // throw EnvironmentVariableParseError
 ```
 
+### Parsing File / File Path
+Sometimes an environment variable contains a file path, it may be useful to check if the file exists.
+
+```typescript
+// Application loaded with following environment variables:
+//  - VALID_FILE_PATH = '/TOTO.TXT'
+//  - NONE_EXISTING_PATH = '/FOO/BAR'
+import Environment from '@matguig/environment';
+
+// Classic
+Environment.getFilePath('VALID_FILE_PATH'); // /TOTO.TXT
+
+// Fallback
+Environment.getFilePath('NONE_EXISTING_PATH', '/TOTO.TXT'); // /TOTO.TXT
+
+// Errors
+Environment.getFilePath('NONE_EXISTING_PATH'); // throw Error // File does not exist
+Environment.getFilePath('NONE_EXISTING_VAR'); // throw UndefinedEnvironmentVariableError
+Environment.getFilePath('NONE_EXISTING_VAR', '/FOO/BAR'); // throw Error // File does not exist
+```
+
+You can also get a readable stream or directly the content
+
+```typescript
+// Application loaded with following environment variables:
+//  - VALID_FILE_PATH = '/TOTO.TXT'
+//  - NONE_EXISTING_PATH = '/FOO/BAR'
+import Environment from '@matguig/environment';
+
+// Classic
+Environment.getFile('VALID_FILE_PATH'); // Promise<ReadStream>
+Environment.getFileContent('VALID_FILE_PATH'); // Buffer
+
+// options
+Environment.getFile('VALID_FILE_PATH', {encoding: 'utf-8'}); // Promise<ReadStream>
+Environment.getFileContent('VALID_FILE_PATH', 'utf-8'); // string
+```
+
 ## to-do
  - Create a node js package for the string dictionary reader
  - implement an optional validator for JSON

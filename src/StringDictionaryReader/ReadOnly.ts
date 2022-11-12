@@ -1,5 +1,15 @@
+import { createReadStream, existsSync, readFileSync, ReadStream } from "fs";
 import EnvironmentVariableParseError, { TargetedType } from "../Error/EnvironmentVariableParseError";
 import UndefinedEnvironmentVariableError from "../Error/UndefinedEnvironmentVariableError";
+
+type ReadFileOptions = {
+  flags?: string | undefined;
+  encoding?: BufferEncoding | undefined;
+  mode?: number | undefined;
+  start?: number | undefined;
+  end?: number | undefined;
+  highWaterMark?: number | undefined;
+}
 
 class StringDictionaryReaderReadOnly {
   constructor(protected dict: Record<string, string>) {}
@@ -69,6 +79,43 @@ class StringDictionaryReaderReadOnly {
       return false;
     }
     throw new EnvironmentVariableParseError(name, TargetedType.Boolean, value);
+  }
+
+  public getFilePath(name: string): string
+  public getFilePath(name: string, fallback: null): string | null
+  public getFilePath(name: string, fallback: string): string
+  public getFilePath(name: string, fallback?: string | null): string | null {
+    const value = this.get(name, null) || this.returnFallbackOrThrowError<string>(fallback, name);
+    if (value === null) {
+      return null;
+    }
+    if (existsSync(value) === false) {
+      throw new Error(`File ${value} does not exist`);
+    }
+    return value;
+  }
+
+  public getFile(name: string, options: ReadFileOptions = {}): Promise<ReadStream> {
+    const stream = createReadStream(
+      this.getFilePath(name),
+      {
+        encoding: 'utf8',
+        autoClose: true,
+        emitClose: true,
+        ...options
+      }
+    );
+
+    return new Promise((resolve, reject) => {
+      stream.on('error', reject);
+      stream.on('open', () => { resolve(stream); });
+    });
+  }
+
+  public getFileContent(name: string): Buffer
+  public getFileContent(name: string, encoding: BufferEncoding): string
+  public getFileContent(name: string, encoding?: BufferEncoding): Buffer|string {
+    return readFileSync(this.getFilePath(name), encoding);
   }
 
   public get(name: string): string

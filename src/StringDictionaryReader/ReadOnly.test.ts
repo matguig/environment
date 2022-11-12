@@ -1,3 +1,5 @@
+import { ReadStream } from "fs";
+import { buffer } from "stream/consumers";
 import EnvironmentVariableParseError from "../Error/EnvironmentVariableParseError";
 import UndefinedEnvironmentVariableError from "../Error/UndefinedEnvironmentVariableError";
 import StringDictionaryReaderReadOnly from "./ReadOnly";
@@ -210,6 +212,45 @@ describe('StringDictionaryReader ReadOnly', () => {
     it('should be able to parse float as json', () => {
       expect(dict.getJSON('QUUX')).toBe(123.456);
     });
+  });
+
+  describe('getFile method', () => {
+    const dict = new StringDictionaryReaderReadOnly({
+      'NON_EXIST': '/non/exist',
+      'FILE_PATH': __dirname + '/__tests__/file.txt',
+    });
+
+    it('should throw an error when getting value of an none existing key without fallback', () => {
+      const expected = expect(() => dict.getFile('NON_EXISTING'));
+
+      expected.toThrowErrorMatchingSnapshot();
+      expected.toThrow(UndefinedEnvironmentVariableError);
+    });
+
+    it('should throw an error if file does not exist', () => {
+      const expected = expect(() => dict.getFile('NON_EXIST'));
+
+      expected.toThrowErrorMatchingSnapshot();
+      expected.toThrow(Error);
+    });
+
+    it('should return readable stream of file', async () => {
+      const stream = await dict.getFile('FILE_PATH');
+
+      expect(stream).toBeInstanceOf(ReadStream);
+      const chunks: Buffer[] = [];
+      await new Promise((resolve) => {
+        stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+        stream.on('end', resolve);
+      });
+
+      expect(Buffer.concat(chunks as Buffer[]).toString()).toBe('Hello World!\n');
+    });
+
+    it('should getFileContent', () => {
+      expect(dict.getFileContent('FILE_PATH', 'utf-8')).toBe('Hello World!\n');
+      expect(dict.getFileContent('FILE_PATH').toString('utf-8')).toBe('Hello World!\n');
+    })
   });
 
   describe('has method', () => {

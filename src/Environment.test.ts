@@ -1,7 +1,7 @@
 import Environment from "./Environment";
 import StringDictionaryReaderReadOnly from "./StringDictionaryReader/ReadOnly";
 
-let initialProcessEnv = {...process.env};
+const initialProcessEnv = {...process.env};
 describe('environment', () => {
   beforeEach(() => {
     process.env = {};
