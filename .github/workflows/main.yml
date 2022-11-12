@@ -1,0 +1,26 @@
+name: update
+on:
+  push:
+    branches:
+    - main
+jobs:
+  coverage:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 5
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: install dependencies
+        run: npm install
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v3.2.0
+        env:
+          CC_TEST_REPORTER_ID: d14fc03e4d27016e3da2f8eb6d03abdaf1ae1eb6b0ef5cd260cb45609e6a126d
+        with:
+          coverageCommand: yarn run test:coverage
+          debug: true
+          coverageLocations: ${{github.workspace}}/coverage/*.lcov:lcov

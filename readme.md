@@ -1,4 +1,9 @@
 # @matguig/environment
+[![npm version](https://badge.fury.io/js/@matguig%2Fenvironment.svg)](https://badge.fury.io/js/@matguig%2Fenvironment)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3f6d003ba46d94c32728/test_coverage)](https://codeclimate.com/github/matguig/environment/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3f6d003ba46d94c32728/maintainability)](https://codeclimate.com/github/matguig/environment/maintainability)
+[![Known Vulnerabilities](https://snyk.io/test/github/matguig/environment/badge.svg)](https://snyk.io/test/github/matguig/environment)
+
 This package allows you to easily and safely access to you environment variables
 
 ## Installation
@@ -66,6 +71,5 @@ Environment.has('RANDOM_STRING') // true
 
 ## to-do
  - improve the documentation/readme
- - implementation of unit tests (target coverage 90%)
  - Create a node js package for the string dictionary reader
  - implement an optional validator for JSON
