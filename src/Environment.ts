@@ -1,13 +1,13 @@
-import StringDictReaderReadOnly from "./StringDictionaryReader/ReadOnly";
+import StringDictReaderReadOnly from './StringDictionaryReader/ReadOnly';
 
 enum EnvironmentName {
-  Development = "development",
-  Production = "production",
-  Test = "test",
+  Development = 'development',
+  Production = 'production',
+  Test = 'test',
 }
 
 class Environment extends StringDictReaderReadOnly {
-  private static readonly CURRENT_ENVIRONMENT_KEY = "NODE_ENV";
+  private static readonly CURRENT_ENVIRONMENT_KEY = 'NODE_ENV';
 
   private defaultEnvironmentValues: Record<string, string> = {};
 
@@ -18,7 +18,7 @@ class Environment extends StringDictReaderReadOnly {
   public get content(): Record<string, string> {
     return {
       ...this.defaultEnvironmentValues,
-      ...this.dict
+      ...this.dict,
     };
   }
 
@@ -44,7 +44,7 @@ class Environment extends StringDictReaderReadOnly {
   public getEnvName<T = string>(): EnvironmentName | T {
     return this.get(
       Environment.CURRENT_ENVIRONMENT_KEY,
-      EnvironmentName.Development
+      EnvironmentName.Development,
     ) as EnvironmentName | T;
   }
 

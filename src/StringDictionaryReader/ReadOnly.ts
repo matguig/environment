@@ -1,6 +1,6 @@
-import { createReadStream, existsSync, readFileSync, ReadStream } from "fs";
-import EnvironmentVariableParseError, { TargetedType } from "../Error/EnvironmentVariableParseError";
-import UndefinedEnvironmentVariableError from "../Error/UndefinedEnvironmentVariableError";
+import { type ReadStream, createReadStream, existsSync, readFileSync } from 'fs';
+import EnvironmentVariableParseError, { TargetedType } from '../Error/EnvironmentVariableParseError';
+import UndefinedEnvironmentVariableError from '../Error/UndefinedEnvironmentVariableError';
 
 type ReadFileOptions = {
   flags?: string | undefined;
@@ -102,13 +102,13 @@ class StringDictionaryReaderReadOnly {
         encoding: 'utf8',
         autoClose: true,
         emitClose: true,
-        ...options
-      }
+        ...options,
+      },
     );
 
     return new Promise((resolve, reject) => {
       stream.on('error', reject);
-      stream.on('open', () => { resolve(stream); });
+      stream.on('open', () => resolve(stream));
     });
   }
 
