@@ -1,4 +1,4 @@
-import StringDictionaryReaderReadOnly from "./ReadOnly";
+import StringDictionaryReaderReadOnly from './ReadOnly';
 
 class StringDictionaryReader extends StringDictionaryReaderReadOnly {
   public constructor(dict: Record<string, string> = {}) {

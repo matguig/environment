@@ -1,0 +1,107 @@
+name: update
+on:
+  push:
+    branches:
+    - 'feature/**'
+    - 'bugfix/**'
+jobs:
+  setup:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 5
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: install dependencies
+        run: npm install
+      - name: Zip code and environment variables
+        run: |
+          pwd
+          ls -lah
+          touch code.artifact.tar.gz
+          tar --exclude=code.artifact.tar.gz -czf code.artifact.tar.gz .
+          ls -lh code.artifact.tar.gz | awk '{ print "a tarball file named "$9" with a size of "$5" was successfully created."}'
+      - name: Upload code, env vars and dependencies artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: code.artifact
+          retention-days: 1
+          path: code.artifact.tar.gz
+
+  coverage:
+    needs:
+      - setup
+    runs-on: ubuntu-20.04
+    timeout-minutes: 5
+    steps:
+      - name: Download code, env vars artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: code.artifact
+          path: .
+      - name: Unzip code and env vars
+        run: |
+          ls -la
+          ls -lh code.artifact.tar.gz | awk '{ print "a tarball file named "$9" with a size of "$5" was successfully recovered."}'
+          tar -xzf code.artifact.tar.gz
+          rm code.artifact.tar.gz
+      - name: setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Test
+        run: |
+          yarn run test:coverage
+
+  lint:
+    needs:
+      - setup
+    runs-on: ubuntu-20.04
+    timeout-minutes: 5
+    steps:
+      - name: Download code, env vars artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: code.artifact
+          path: .
+      - name: Unzip code and env vars
+        run: |
+          ls -la
+          ls -lh code.artifact.tar.gz | awk '{ print "a tarball file named "$9" with a size of "$5" was successfully recovered."}'
+          tar -xzf code.artifact.tar.gz
+          rm code.artifact.tar.gz
+      - name: setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: lint
+        run: |
+          yarn run lint
+
+  build:
+    needs:
+      - setup
+    runs-on: ubuntu-20.04
+    timeout-minutes: 5
+    steps:
+      - name: Download code, env vars artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: code.artifact
+          path: .
+      - name: Unzip code and env vars
+        run: |
+          ls -la
+          ls -lh code.artifact.tar.gz | awk '{ print "a tarball file named "$9" with a size of "$5" was successfully recovered."}'
+          tar -xzf code.artifact.tar.gz
+          rm code.artifact.tar.gz
+      - name: setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: build
+        run: |
+          yarn run build

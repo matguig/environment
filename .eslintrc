@@ -1,7 +1,7 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "autofix"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -15,6 +15,59 @@
     "@typescript-eslint/explicit-module-boundary-types": ["error"],
     "@typescript-eslint/member-ordering": ["error"],
     "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }],
-    "@typescript-eslint/no-non-null-assertion": ["error"]
+    "@typescript-eslint/no-non-null-assertion": ["error"],
+    "arrow-body-style": ["error", "as-needed"],
+    "quotes": ["error", "single"],
+    "spaced-comment": ["error"],
+    "no-duplicate-imports": ["error"],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports",
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "always-multiline"
+      }
+    ],
+    "autofix/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "ignoreRestSiblings": true,
+        "destructuredArrayIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "classProperty",
+        "format": ["camelCase", "UPPER_CASE"],
+        "modifiers": ["private", "readonly", "static"]
+      },
+      {
+        "selector": "default",
+        "format": ["camelCase"]
+      },
+      {
+        "selector": "variable",
+        "format": ["camelCase", "UPPER_CASE"]
+      },
+      {
+        "selector": "typeLike",
+        "format": ["PascalCase"]
+      },
+      {
+        "selector": "enumMember",
+        "format": ["PascalCase"]
+      }
+    ],
+    "brace-style": ["error"]
   }
 }
